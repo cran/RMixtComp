@@ -33,7 +33,7 @@ dat <- list(tempav = apply(CanadianWeather$tempav, 2,
             precav = apply(CanadianWeather$precav, 2, 
                            function(x) createFunctional(CanadianWeather$time, x)))
 
-# create model with 3 subregressions ans 2 coefficients per regression
+# create model with 4 subregressions ans 2 coefficients per regression
 model <- list(tempav = list(type = "Func_CS", paramStr = "nSub: 4, nCoeff: 2"),
               precav = list(type = "Func_CS", paramStr = "nSub: 4, nCoeff: 2"))
 
@@ -54,8 +54,10 @@ getTik(resLearn, log = FALSE)
   
 }
 \seealso{
-Other data: \code{\link{prostate}}, \code{\link{simData}},
-  \code{\link{titanic}}
+Other data: 
+\code{\link{prostate}},
+\code{\link{simData}},
+\code{\link{titanic}}
 }
 \concept{data}
 \keyword{data}

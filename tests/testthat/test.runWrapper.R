@@ -12,22 +12,23 @@
 # 
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>
- 
+
 
 # @author Quentin Grimonprez
 context("run functions")
 
-Sys.setenv(MC_DETERMINISTIC = 42)
+# These tests are skipped on cran to keep elapsed time < 10min
 
-
+Sys.setenv(MC_DETERMINISTIC = 2)
 
 test_that("mixtCompLearn works in basic mode + predict", {
-  set.seed(42)
+  skip_on_cran()
+  set.seed(42, kind = "Mersenne-Twister", normal.kind = "Inversion")
   
   ## data.frame object
-  dat <- data.frame(cont = c(rnorm(100, -2, 0.8), rnorm(100, 2, 0.8)),
-                    categ = c("a", "b")[c(apply(rmultinom(100, 1, c(0.5, 0.5)), 2, which.max), apply(rmultinom(100, 1, c(0.2, 0.8)), 2, which.max))],
-                    poiss = c(rpois(100, 2), rpois(100, 5)))
+  dat <- data.frame(cont = c(rnorm(150, -2, 0.8), rnorm(150, 2, 0.8)),
+                    categ = c("a", "b")[c(apply(rmultinom(150, 1, c(0.5, 0.5)), 2, which.max), apply(rmultinom(150, 1, c(0.2, 0.8)), 2, which.max))],
+                    poiss = c(rpois(150, 2), rpois(150, 5)))
   
   expect_warning(resLearn <- mixtCompLearn(dat, nClass = 2, nRun = 3, nCore = 1), regexp = NA)
   
@@ -35,15 +36,15 @@ test_that("mixtCompLearn works in basic mode + predict", {
     print(resLearn$warnLog)
   
   expect_equal(resLearn$warnLog, NULL)
-  expect_gte(RMixtCompIO:::rand.index(getPartition(resLearn), rep(1:2, each = 100)), 0.9)
+  expect_gte(RMixtCompIO:::rand.index(getPartition(resLearn), rep(1:2, each = 150)), 0.9)
   expect_lte(norm(getTik(resLearn, log = FALSE) - getEmpiricTik(resLearn))/resLearn$algo$nInd, 0.1)
   
   expect_equal(resLearn$variable$type, list(z_class = "LatentClass", cont = "Gaussian", categ = "Multinomial", poiss = "Poisson"))
   expect_true(resLearn$algo$basicMode)
   expect_false(resLearn$algo$hierarchicalMode)
-  expect_equal(resLearn$algo$dictionary, list(categ = list(old = c("b", "a"), new = c("1", "2"))))
+  expect_equal(resLearn$algo$dictionary, list(categ = list(old = c("a", "b"), new = c("1", "2"))))
   expect_equal(resLearn$variable$data$categ$completed, as.character(dat$categ))
-  expect_equal(rownames(resLearn$variable$param$categ$stat), c("k: 1, modality: b", "k: 1, modality: a", "k: 2, modality: b", "k: 2, modality: a"))
+  expect_equal(rownames(resLearn$variable$param$categ$stat), c("k: 1, modality: a", "k: 1, modality: b", "k: 2, modality: a", "k: 2, modality: b"))
   
   expect_warning(resPredict <- mixtCompPredict(dat, resLearn = resLearn), regexp = NA)
   
@@ -51,19 +52,19 @@ test_that("mixtCompLearn works in basic mode + predict", {
     print(resPredict$warnLog)
   
   expect_equal(resPredict$warnLog, NULL)
-  expect_gte(RMixtCompIO:::rand.index(getPartition(resPredict), rep(1:2, each = 100)), 0.9)
+  expect_gte(RMixtCompIO:::rand.index(getPartition(resPredict), rep(1:2, each = 150)), 0.9)
   expect_equal(resPredict$algo[1:7], resLearn$algo[1:7]) # check that algo param form resLearn are used
   expect_true(resPredict$algo$basicMode)
-  expect_equal(resPredict$algo$dictionary, list(categ = list(old = c("b", "a"), new = c("1", "2"))))
+  expect_equal(resPredict$algo$dictionary, list(categ = list(old = c("a", "b"), new = c("1", "2"))))
   expect_equal(resPredict$variable$data$categ$completed, as.character(dat$categ))
-  expect_equal(rownames(resPredict$variable$param$categ$stat), c("k: 1, modality: b", "k: 1, modality: a", "k: 2, modality: b", "k: 2, modality: a"))
+  expect_equal(rownames(resPredict$variable$param$categ$stat), c("k: 1, modality: a", "k: 1, modality: b", "k: 2, modality: a", "k: 2, modality: b"))
   
   
-  ## list object with z_class 
-  dat <- list(cont = c(rnorm(100, -2, 0.8), rnorm(100, 2, 0.8)),
-              categ1 = as.character(c(apply(rmultinom(100, 1, c(0.5, 0.5)), 2, which.max), apply(rmultinom(100, 1, c(0.2, 0.8)), 2, which.max))),
-              categ2 = as.factor(c(apply(rmultinom(100, 1, c(0.5, 0.5)), 2, which.max), apply(rmultinom(100, 1, c(0.2, 0.8)), 2, which.max))),
-              poiss = c(rpois(100, 2), rpois(100, 5)))
+  ## list object
+  dat <- list(cont = c(rnorm(150, -2, 0.8), rnorm(150, 2, 0.8)),
+              categ1 = as.character(c(apply(rmultinom(150, 1, c(0.5, 0.5)), 2, which.max), apply(rmultinom(150, 1, c(0.2, 0.8)), 2, which.max))),
+              categ2 = as.factor(c(apply(rmultinom(150, 1, c(0.5, 0.5)), 2, which.max), apply(rmultinom(150, 1, c(0.2, 0.8)), 2, which.max))),
+              poiss = c(rpois(150, 2), rpois(150, 5)))
   
   expect_warning(resLearn <- mixtCompLearn(dat, nClass = 2), regexp = NA)
   
@@ -71,17 +72,17 @@ test_that("mixtCompLearn works in basic mode + predict", {
     print(resLearn$warnLog)
   
   expect_equal(resLearn$warnLog, NULL)
-  expect_gte(RMixtCompIO:::rand.index(getPartition(resLearn), rep(1:2, each = 100)), 0.95)
+  expect_gte(RMixtCompIO:::rand.index(getPartition(resLearn), rep(1:2, each = 150)), 0.9)
   expect_lte(norm(getTik(resLearn, log = FALSE) - getEmpiricTik(resLearn))/resLearn$algo$nInd, 0.1)
   
   expect_equal(resLearn$variable$type, list(z_class = "LatentClass", cont = "Gaussian", categ1 = "Multinomial", categ2 = "Multinomial", poiss = "Poisson"))
   expect_true(resLearn$algo$basicMode)
   expect_false(resLearn$algo$hierarchicalMode)
-  expect_equal(resLearn$algo$dictionary, list(categ1 = list(old = c("2", "1"), new = c("1", "2")),
+  expect_equal(resLearn$algo$dictionary, list(categ1 = list(old = c("1", "2"), new = c("1", "2")),
                                               categ2 = list(old = c("1", "2"), new = c("1", "2"))))
   expect_equal(resLearn$variable$data$categ1$completed, as.character(dat$categ1))
   expect_equal(resLearn$variable$data$categ2$completed, as.character(dat$categ2))
-  expect_equal(rownames(resLearn$variable$param$categ1$stat), c("k: 1, modality: 2", "k: 1, modality: 1", "k: 2, modality: 2", "k: 2, modality: 1"))
+  expect_equal(rownames(resLearn$variable$param$categ1$stat), c("k: 1, modality: 1", "k: 1, modality: 2", "k: 2, modality: 1", "k: 2, modality: 2"))
   expect_equal(rownames(resLearn$variable$param$categ2$stat), c("k: 1, modality: 1", "k: 1, modality: 2", "k: 2, modality: 1", "k: 2, modality: 2"))
   
   
@@ -92,20 +93,20 @@ test_that("mixtCompLearn works in basic mode + predict", {
     print(resPredict$warnLog)
   
   expect_equal(resPredict$warnLog, NULL)
-  expect_gte(RMixtCompIO:::rand.index(getPartition(resPredict), rep(1:2, each = 100)), 0.95)
+  expect_gte(RMixtCompIO:::rand.index(getPartition(resPredict), rep(1:2, each = 150)), 0.9)
   expect_lte(norm(getTik(resPredict, log = FALSE) - getEmpiricTik(resPredict))/resPredict$algo$nInd, 0.1)
   expect_true(resPredict$algo$basicMode)
-  expect_equal(resPredict$algo$dictionary, list(categ1 = list(old = c("2", "1"), new = c("1", "2")),
+  expect_equal(resPredict$algo$dictionary, list(categ1 = list(old = c("1", "2"), new = c("1", "2")),
                                                 categ2 = list(old = c("1", "2"), new = c("1", "2"))))
   expect_equal(resPredict$variable$data$categ1$completed, as.character(dat$categ1))
   expect_equal(resPredict$variable$data$categ2$completed, as.character(dat$categ2))
-  expect_equal(rownames(resPredict$variable$param$categ1$stat), c("k: 1, modality: 2", "k: 1, modality: 1", "k: 2, modality: 2", "k: 2, modality: 1"))
+  expect_equal(rownames(resPredict$variable$param$categ1$stat), c("k: 1, modality: 1", "k: 1, modality: 2", "k: 2, modality: 1", "k: 2, modality: 2"))
   expect_equal(rownames(resPredict$variable$param$categ2$stat), c("k: 1, modality: 1", "k: 1, modality: 2", "k: 2, modality: 1", "k: 2, modality: 2"))
   
   
   
   ## with z_class and without multinomial
-  dat$z_class = rep(1:2, each = 100)
+  dat$z_class = rep(1:2, each = 150)
   dat$categ1 = NULL
   dat$categ2 = NULL
   
@@ -115,7 +116,7 @@ test_that("mixtCompLearn works in basic mode + predict", {
     print(resLearn$warnLog)
   
   expect_equal(resLearn$warnLog, NULL)
-  expect_gte(RMixtCompIO:::rand.index(getPartition(resLearn), rep(1:2, each = 100)), 0.95)
+  expect_gte(RMixtCompIO:::rand.index(getPartition(resLearn), rep(1:2, each = 150)), 0.95)
   expect_equal(resLearn$variable$type, list(z_class = "LatentClass", cont = "Gaussian", poiss = "Poisson"))
   expect_true(resLearn$algo$basicMode)
   expect_false(resLearn$algo$hierarchicalMode)
@@ -124,7 +125,7 @@ test_that("mixtCompLearn works in basic mode + predict", {
   
   dat$z_class = NULL
   expect_warning(resPredict <- mixtCompPredict(dat, resLearn = resLearn), regexp = NA)
-  expect_gte(RMixtCompIO:::rand.index(getPartition(resPredict), rep(1:2, each = 100)), 0.95)
+  expect_gte(RMixtCompIO:::rand.index(getPartition(resPredict), rep(1:2, each = 150)), 0.95)
   expect_true(resPredict$algo$basicMode)
   expect_equal(resPredict$algo$dictionary, list())
 })
@@ -132,6 +133,7 @@ test_that("mixtCompLearn works in basic mode + predict", {
 
 
 test_that("plot in basic mode + predict works with z_class as character", {
+  skip_on_cran()
   data(iris)
   
   names(iris)[5] = "z_class"
@@ -177,7 +179,8 @@ test_that("plot in basic mode + predict works with z_class as character", {
     expect_warning(plotParamConvergence(resLearn, name), regexp = NA)
     expect_warning(plotDataCI(resLearn, name, pkg = "plotly"), regexp = NA)
     expect_warning(plotDataCI(resLearn, name, pkg = "ggplot2"), regexp = NA)
-    expect_warning(plotDataBoxplot(resLearn, name), regexp = NA)
+    expect_warning(plotDataBoxplot(resLearn, name, pkg = "plotly"), regexp = NA)
+    expect_warning(plotDataBoxplot(resLearn, name, pkg = "ggplot2"), regexp = NA)
   }
   
   expect_warning(plotProportion(resLearn, pkg = "ggplot2"), regexp = NA)
@@ -194,7 +197,8 @@ test_that("plot in basic mode + predict works with z_class as character", {
 
 
 test_that("mixtCompLearn works + mixtCompPredict", {
-  set.seed(42)
+  skip_on_cran()
+  set.seed(42, kind = "Mersenne-Twister", normal.kind = "Inversion")
   
   nInd <- 2000
   
@@ -202,10 +206,10 @@ test_that("mixtCompLearn works + mixtCompPredict", {
   var$z_class <- RMixtCompIO:::zParam()
   var$z_class$param <- c(0.2, 0.3, 0.15, 0.35)
   var$Gaussian1 <- RMixtCompIO:::gaussianParam("Gaussian1")
-  var$Gaussian1$param[[3]] <- list(mean = -2, sd = 0.5)
-  var$Gaussian1$param[[4]] <- list(mean = 2, sd = 0.5)
+  var$Gaussian1$param[[3]] <- list(mean = -1.5, sd = 0.4)
+  var$Gaussian1$param[[4]] <- list(mean = 1.5, sd = 0.4)
   
-  resGen <- RMixtCompIO:::dataGeneratorNewIO(nInd, 0.9, var)
+  resGen <- RMixtCompIO:::dataGeneratorNewIO(nInd, 0.95, var)
   
   algo <- list(
     nbBurnInIter = 100,
@@ -277,7 +281,8 @@ test_that("mixtCompLearn works + mixtCompPredict", {
 })
 
 test_that("mixtCompLearn works with a vector for nClass + mixtCompPredict + verbose", {
-  set.seed(42)
+  skip_on_cran()
+  set.seed(42, kind = "Mersenne-Twister", normal.kind = "Inversion")
   
   nInd <- 1000
   
@@ -371,11 +376,13 @@ test_that("mixtCompLearn works with a vector for nClass + mixtCompPredict + verb
     {
       expect_warning(plotDataCI(resLearn, name, pkg = "plotly"), regexp = NA)
       expect_warning(plotDataCI(resLearn, name, pkg = "ggplot2"), regexp = NA)
-      expect_warning(plotDataBoxplot(resLearn, name), regexp = NA)
+      expect_warning(plotDataBoxplot(resLearn, name, pkg = "plotly"), regexp = NA)
+      expect_warning(plotDataBoxplot(resLearn, name, pkg = "ggplot2"), regexp = NA)
     }else{
       expect_warning(plotDataCI(resLearn, name, pkg = "ggplot2"))
       expect_warning(plotDataCI(resLearn, name, pkg = "plotly"))
-      expect_warning(plotDataBoxplot(resLearn, name))
+      expect_warning(plotDataBoxplot(resLearn, name, pkg = "ggplot2"))
+      expect_warning(plotDataBoxplot(resLearn, name, pkg = "plotly"))
     }
   }
   expect_warning(plotCrit(resLearn, pkg = "ggplot2"), regexp = NA)
@@ -405,10 +412,10 @@ test_that("mixtCompLearn works with a vector for nClass + mixtCompPredict + verb
 })
 
 
-test_that("mixtCompLearn works in hierarchicalMode",{
+test_that("mixtCompLearn works in hierarchicalMode", {
   skip_on_cran()
-  set.seed(42)
-
+  set.seed(42, kind = "Mersenne-Twister", normal.kind = "Inversion")
+  
   data(simData)
   model <- simData$model$unsupervised[c("Gaussian1", "Functional1")]
   
@@ -422,9 +429,9 @@ test_that("mixtCompLearn works in hierarchicalMode",{
     confidenceLevel = 0.95
   )
   
-
+  
   resLearn <- mixtCompLearn(simData$dataLearn$matrix, model, algo, nClass = 3, nRun = 2, nCore = 1, verbose = TRUE) 
-
+  
   if(!is.null(resLearn$warnLog))
     print(resLearn$warnLog)
   
@@ -484,11 +491,13 @@ test_that("mixtCompLearn works in hierarchicalMode",{
     {
       expect_warning(plotDataCI(resLearn, name, pkg = "plotly"), regexp = NA)
       expect_warning(plotDataCI(resLearn, name, pkg = "ggplot2"), regexp = NA)
-      expect_warning(plotDataBoxplot(resLearn, name), regexp = NA)
+      expect_warning(plotDataBoxplot(resLearn, name, pkg = "plotly"), regexp = NA)
+      expect_warning(plotDataBoxplot(resLearn, name, pkg = "ggplot2"), regexp = NA)
     }else{
       expect_warning(plotDataCI(resLearn, name, pkg = "ggplot2"))
       expect_warning(plotDataCI(resLearn, name, pkg = "plotly"))
-      expect_warning(plotDataBoxplot(resLearn, name))
+      expect_warning(plotDataBoxplot(resLearn, name, pkg = "ggplot2"))
+      expect_warning(plotDataBoxplot(resLearn, name, pkg = "plotly"))
     }
   }
   expect_warning(plotCrit(resLearn, pkg = "ggplot2"), regexp = NA)
@@ -507,11 +516,11 @@ test_that("mixtCompLearn works in hierarchicalMode",{
   expect_warning(print(resLearn$res[[1]]), regexp = NA)
   
   
-  expect_warning(resPredict <- mixtCompPredict(simData$dataLearn$matrix, model, algo, resLearn, nClass = 2, verbose = TRUE), regexp = NA)
-  expect_lte(norm(getTik(resPredict, log = FALSE) - getEmpiricTik(resPredict))/resPredict$algo$nInd, 0.1)
+  expect_warning(resPredict <- mixtCompPredict(simData$dataPredict$matrix, model, algo, resLearn, nClass = 2, verbose = TRUE), regexp = NA)
   if(!is.null(resPredict$warnLog))
     print(resPredict$warnLog)
   
+  expect_lte(norm(getTik(resPredict, log = FALSE) - getEmpiricTik(resPredict))/resPredict$algo$nInd, 0.1)
   expect_equal(names(resPredict), c("mixture", "variable", "algo"))
   expect_equal(resPredict$algo$mode, "predict")
 })
@@ -529,8 +538,9 @@ test_that("summary works + run without paramStr for functional", {
   data("simData")
   simData$model$unsupervised$Functional1$paramStr = ""
   
-  resLearn <- mixtCompLearn(simData$dataLearn$matrix, simData$model$unsupervised, algo = createAlgo(nbBurnInIter = 25, nbIter = 25, nbGibbsBurnInIter = 25, nbGibbsIter = 25), 
-                            nClass = 2, nRun = 3, nCore = 1, hierarchicalMode = "no") 
+  resLearn <- mixtCompLearn(simData$dataLearn$matrix, simData$model$unsupervised[-c(3:5, 7:8)], 
+                            algo = createAlgo(nbBurnInIter = 25, nbIter = 25, nbGibbsBurnInIter = 25, nbGibbsIter = 25), 
+                            nClass = 2, nRun = 1, nCore = 1, hierarchicalMode = "no") 
   
   expect_equal(resLearn$variable$param$Functional1$paramStr, "nSub: 2, nCoeff: 2")
   

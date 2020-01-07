@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Quentin Grimonprez" />
+
+<meta name="date" content="2020-01-07" />
+
+<title>Overview of MixtComp Object</title>
+
+
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Overview of MixtComp Object</h1>
+<h4 class="author">Quentin Grimonprez</h4>
+<h4 class="date">2020-01-07</h4>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#mixtcomp-object">MixtComp Object</a><ul>
+<li><a href="#warnlog">warnLog</a></li>
+<li><a href="#algo">algo</a></li>
+<li><a href="#mixture">mixture</a></li>
+<li><a href="#variable">variable</a></li>
+</ul></li>
+<li><a href="#mixtcomplearn-object">MixtCompLearn Object</a></li>
+</ul>
+</div>
+
+<p><code>mixtCompLearn</code> returns an object of class <em>MixtCompLearn</em> and <em>MixtComp</em> whereas <code>mixtCompPredict</code>returns an object of class <em>MixtComp</em>.</p>
+<div id="mixtcomp-object" class="section level2">
+<h2>MixtComp Object</h2>
+<p>Overview of output object with variables named <em>categorical</em>, <em>gaussian</em>, <em>rank</em>, <em>functional</em>, <em>poisson</em>, <em>nBinom</em> and <em>weibull</em> with model respectively <em>Multinomal</em>, <em>Gaussian</em>, <em>Rank_ISR</em>, <em>Func_CS</em> (or <em>Func_SharedAlpha_CS</em>), <em>Poisson</em>, <em>NegativeBinomial</em> and <em>Weibull</em>. In case of a successfull run, the output object is a list of list organized as follows:</p>
+<pre class="text"><code>output
+|_______ algo __ nbBurnInIter
+|             |_ nbIter
+|             |_ nbGibbsBurnInIter
+|             |_ nbGibbsIter
+|             |_ nInitPerClass
+|             |_ nSemTry
+|             |_ mode
+|             |_ nInd
+|             |_ confidenceLevel
+|             |_ nClass
+|             |_ ratioStableCriterion
+|             |_ nStableCriterion
+|             |_ basicMode
+|             |_ hierarchicalMode
+|
+|_______ mixture __ BIC
+|                |_ ICL
+|                |_ lnCompletedLikelihood
+|                |_ lnObservedLikelihood
+|                |_ IDClass
+|                |_ delta
+|                |_ runTime
+|                |_ nbFreeParameters
+|                |_ completedProbabilityLogBurnIn
+|                |_ completedProbabilityLogRun
+|                |_ lnProbaGivenClass
+|
+|_______ variable __ type __ z_class
+                  |       |_ categorical
+                  |       |_ gaussian
+                  |       |_ ...
+                  |
+                  |_ data __ z_class __ completed
+                  |       |          |_ stat
+                  |       |_ categorical __ completed
+                  |       |              |_ stat
+                  |       |_ ...
+                  |       |_ functional __ data
+                  |                     |_ time
+                  |
+                  |_ param __ z_class __ stat
+                          |           |_ log
+                          |           |_ paramStr
+                          |_ functional __ alpha __ stat
+                          |             |        |_ log
+                          |             |_ beta __ stat
+                          |             |       |_ log
+                          |             |_ sd __ stat
+                          |             |     |_ log
+                          |             |_ paramStr
+                          |_ rank __ mu __ stat
+                          |       |     |_ log
+                          |       |_ pi __ stat
+                          |       |     |_ log
+                          |       |_ paramStr
+                          |
+                          |_ gaussian __ stat
+                          |           |_ log
+                          |           |_ paramStr
+                          |_ poisson __ stat
+                          |          |_ log
+                          |          |_ paramStr
+                          |_ ...</code></pre>
+<div id="warnlog" class="section level3">
+<h3>warnLog</h3>
+<p>In case of an unsuccessfull run, the output object is a list containing an element <strong>warnLog</strong> with all the warnings returned by MixtComp.</p>
+</div>
+<div id="algo" class="section level3">
+<h3>algo</h3>
+<p>A copy of <em>algo</em> parameter.</p>
+<ul>
+<li><strong>nbBurnInIter</strong> Number of iterations of the burn-in part of the SEM algorithm.</li>
+<li><strong>nbIter</strong> Number of iterations of the SEM algorithm.</li>
+<li><strong>nbGibbsBurnInIter</strong> Number of iterations of the burn-in part of the Gibbs algorithm.</li>
+<li><strong>nbGibbsIter</strong> Number of iterations of the Gibbs algorithm.</li>
+<li><strong>nInitPerClass</strong> Number of individuals used to initialize each cluster.</li>
+<li><strong>nSemTry</strong> Number of try of the algorithm for avoiding an error.</li>
+<li><strong>confidenceLevel</strong> Confidence level for confidence bounds for parameter estimation.</li>
+<li><strong>ratioStableCriterion</strong> Stability partition required to stop earlier the SEM .</li>
+<li><strong>nStableCriterion</strong> Number of iterations of partition stability to stop earlier the SEM.</li>
+<li><strong>nInd</strong> number of samples in the dataset</li>
+<li><strong>nClass</strong> number of class of the mixture</li>
+<li><strong>mode</strong> “predict” for <code>mixtCompPredict</code> or “learn” for <code>mixtCompLearn</code></li>
+<li><strong>basicMode</strong> If TRUE, mixtCompLearn has run in basic mode (mode using classic R formatting for missing data and with automatic detection of model)</li>
+<li><strong>hierarchicalMode</strong> If TRUE, mixtCompLearn has run in hierarchical mode (learn a model with two classes, then split each classes in two and so on)</li>
+</ul>
+</div>
+<div id="mixture" class="section level3">
+<h3>mixture</h3>
+<ul>
+<li><strong>BIC</strong> value of BIC</li>
+<li><strong>ICL</strong> value of ICL</li>
+<li><strong>nbFreeParameters</strong> number of free parameters of the mixture model</li>
+<li><strong>lnObservedLikelihood</strong> observed loglikelihood</li>
+<li><strong>lnCompletedLikelihood</strong> completed loglikelihood</li>
+<li><strong>IDClass</strong> entropy used to compute the discriminative power (see code of plotDiscrimVbles)</li>
+<li><strong>delta</strong> entropy used to compute the similarities between variables (see code of heatmapVbles)</li>
+<li><strong>completedProbabilityLogBurnIn</strong> evolution of the completed log-probability during the burn-in period (can be used to check the convergence and determine the ideal number of iteration)</li>
+<li><strong>completedProbabilityLogRun</strong> evolution of the completed log-probability after the burn-in period (can be used to check the convergence and determine the ideal number of iteration)</li>
+<li><strong>runTime</strong> a list containing the execution time in seconds of different part of the algorithm</li>
+<li><strong>lnProbaGivenClass</strong> log-probability of each sample for each class times the proportion): <span class="math inline">\(\log(\pi_k)+\log(P(X_i|z_i=k))\)</span></li>
+</ul>
+</div>
+<div id="variable" class="section level3">
+<h3>variable</h3>
+<div id="type" class="section level4">
+<h4>type</h4>
+<p>Named list (according to variable names) containing model used for each variable (e.g. “Gaussian”).</p>
+</div>
+<div id="data" class="section level4">
+<h4>data</h4>
+<p>The format is detailled below according to the model.</p>
+<ul>
+<li><strong>LatentClass</strong></li>
+</ul>
+<p>Two elements: <em>completed</em> and <em>stat</em>. <em>completed</em> contains the completed data. <em>stat</em> is a matrix with the same number of columns as the number of class. For each sample, it contains the <span class="math inline">\(t_{ik}\)</span> (probability of <span class="math inline">\(x_i\)</span> to belong to class <em>k</em>) estimated with the imputed values during the Gibbs at the end of each iteration after the burn-in phase of the algorithm.</p>
+<ul>
+<li><strong>Func_CS</strong> and <strong>Func_SharedAlpha_CS</strong></li>
+</ul>
+<p>Two elements: <em>data</em> and <em>time</em>. <em>time</em> (resp. <em>data</em>) is a list containing the time (resp. value) vector of the functional for each sample.</p>
+<ul>
+<li><strong>Other Models</strong></li>
+</ul>
+<p>One element: <em>completed</em>, a matrix/vector containing the completed version of the dataset.</p>
+</div>
+<div id="param" class="section level4">
+<h4>param</h4>
+<p>For one variable, it contains a list with estimated parameters (<em>param</em>), log recorded during the SEM (<em>log</em>) and hyperparameters if any (<em>paramStr</em>). The output format depends of the model but in most of the case, <em>stat</em> is a matrix with 3 columns containing the median values of estimated parameters and quantile ate the desired confidence level, <em>log</em> is matrix containing the estimated proportion during the M step of each iteration of the algorithm after the burn-in phase and <em>paramStr</em> is a string. For the meaning of the parameters, user can refer to the documentation <a href="dataFormat.html">data format</a>.</p>
+<ul>
+<li><strong>LatentClass</strong></li>
+</ul>
+<p>A list of 3 elements: <em>stat</em>, <em>log</em>, <em>paramStr</em>. <em>log</em> is matrix containing the estimated proportion during the M step of each iteration of the algorithm after the burn-in phase. <em>stat</em> is a matrix containing the median (and quantiles corresponding to the confidenceLevel parameter) of the estimated proportion. The median proportions are the returned proportions. <em>paramStr</em> contains <code>&quot;&quot;</code>.</p>
+<ul>
+<li><strong>Gaussian</strong></li>
+</ul>
+<p>The <em>stat</em> matrix has 2*nClass rows. For a class <span class="math inline">\(k\)</span>, parameters are mean (<span class="math inline">\(\mu_k\)</span>) and sd (<span class="math inline">\(\sigma_k\)</span>).</p>
+<ul>
+<li><strong>Poisson</strong></li>
+</ul>
+<p>The <em>stat</em> matrix has nClass rows. For a class <span class="math inline">\(k\)</span>, the parameter is lambda (<span class="math inline">\(\lambda_k\)</span>).</p>
+<ul>
+<li><strong>NegativeBinomial</strong></li>
+</ul>
+<p>The <em>stat</em> matrix has 2*nClass rows. For a class <span class="math inline">\(k\)</span>, parameters are n (<span class="math inline">\(n_k\)</span>) and p (<span class="math inline">\(p_k\)</span>).</p>
+<ul>
+<li><strong>Weibull</strong></li>
+</ul>
+<p>The <em>stat</em> matrix has 2*nClass rows. For a class <span class="math inline">\(j\)</span>, parameters are k (shape) (<span class="math inline">\(k_j\)</span>) and lambda (scale) (<span class="math inline">\(\lambda_j\)</span>).</p>
+<ul>
+<li><strong>Multinomial</strong></li>
+</ul>
+<p><em>paramStr</em> contains <code>&quot;nModality: J&quot;</code> where <span class="math inline">\(J\)</span> is the number of modalities.</p>
+<p>The <em>stat</em> matrix has J*nClass rows. For a class <span class="math inline">\(k\)</span>, parameters are probabilities to belong to modality <span class="math inline">\(J\)</span>.</p>
+<ul>
+<li><strong>Rank_ISR</strong></li>
+</ul>
+<p><em>paramStr</em> contains <code>&quot;nModality: J&quot;</code> where <span class="math inline">\(J\)</span> is the length of the rank (number of sorted objects).</p>
+<p>Two lists (named <em>mu</em> and <em>pi</em>) of 2 elements: <em>stat</em>, <em>log</em>.</p>
+<p>For <em>pi</em>, <em>stat</em> is a matrix with nClass rows. For a class <span class="math inline">\(k\)</span>, parameter is pi (<span class="math inline">\(pi_k\)</span>).</p>
+<p>For <em>mu</em>, <em>stat</em> is a list with nClass elements. For a class <span class="math inline">\(k\)</span>, a list is returned with the mode of the parameter (<span class="math inline">\(\mu_k\)</span>), and the frequency of the mode during the SEM algorithm after the burn-in phase.</p>
+<ul>
+<li><strong>Func_CS</strong> and <strong>Func_SharedAlpha_CS</strong></li>
+</ul>
+<p><em>paramStr</em> contains <code>&quot;nSub: S, nCoeff: C&quot;</code> where <span class="math inline">\(S\)</span> is the number of subregressions and <span class="math inline">\(C\)</span> the number of coefficients of each regression.</p>
+<p>Three lists (named <em>alpha</em>, <em>beta</em> and <em>sd</em>) of 2 elements: <em>stat</em>, <em>log</em>.</p>
+<p>For <em>alpha</em>, <em>stat</em> is a matrix with 2*S*nClass rows. For a class <span class="math inline">\(k\)</span> and a subregression <span class="math inline">\(s\)</span>, parameters are the estimated coefficients of a logistic regression controlling the transition between subregressions.</p>
+<p>For <em>beta</em>, <em>stat</em> is a matrix with S*C*nClass rows. For a class <span class="math inline">\(k\)</span> and a subregression <span class="math inline">\(s\)</span>, parameters are the estimated coefficient of the regression.</p>
+<p>For <em>sd</em>, <em>stat</em> is a matrix with S*nClass rows. For a class <span class="math inline">\(k\)</span> and a subregression <span class="math inline">\(s\)</span>, the parameter is the standard deviation of the residuals of the regression.</p>
+</div>
+</div>
+</div>
+<div id="mixtcomplearn-object" class="section level2">
+<h2>MixtCompLearn Object</h2>
+<p>A <em>MixtCompLearn</em> object is the output of <code>mixtCompLearn</code> function. It contains one or several <span class="math inline">\(MixtComp\)</span> object.</p>
+<ul>
+<li><strong>nClass</strong> A vector containing the number of classes tested</li>
+<li><strong>crit</strong> ICL and BIC values for each value of <em>nClass</em></li>
+<li><strong>criterion</strong> “BIC” or “ICL”, the criterion used to choose the number of classes</li>
+<li><strong>algo</strong>, <strong>mixture</strong>, <strong>variable</strong>, <strong>warnLog</strong> MixtComp object associated with the best number of classes</li>
+<li><strong>res</strong> A list containing one <em>MixtComp</em> object per number of class. The first element (res[[1]]) corresponds to the <em>MixtComp</em> object for a number of classes of <em>nClass[1]</em></li>
+<li><strong>nRun</strong> Number of runs for each number of classes</li>
+</ul>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

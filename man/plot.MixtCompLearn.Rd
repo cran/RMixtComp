@@ -4,8 +4,14 @@
 \alias{plot.MixtCompLearn}
 \title{Plot of a \emph{MixtCompLearn} object}
 \usage{
-\method{plot}{MixtCompLearn}(x, nVarMaxToPlot = 3, nClass = NULL,
-  pkg = c("ggplot2", "plotly"), ...)
+\method{plot}{MixtCompLearn}(
+  x,
+  nVarMaxToPlot = 3,
+  nClass = NULL,
+  pkg = c("ggplot2", "plotly"),
+  plotData = c("CI", "Boxplot"),
+  ...
+)
 }
 \arguments{
 \item{x}{\emph{MixtCompLearn} object}
@@ -15,6 +21,8 @@
 \item{nClass}{number of classes of the model to plot}
 
 \item{pkg}{"ggplot2" or "plotly". Package used to plot}
+
+\item{plotData}{"CI" or "Boxplot". If "CI", uses \link{plotDataCI} function. If "Boxplot", uses \link{plotDataBoxplot}}
 
 \item{...}{extra parameter for \link{plotDataCI}}
 }
@@ -28,13 +36,14 @@ data(iris)
 resLearn <- mixtCompLearn(iris[, -5], nClass = 2:4)
 
 plot(resLearn)
-plot(resLearn, nClass = 3)
+plot(resLearn, nClass = 3, plotData = "Boxplot")
 
 }
 \seealso{
 \code{\link{mixtCompLearn}} \code{\link{mixtCompPredict}}
 
-Other plot: \code{\link{plotCrit}}
+Other plot: 
+\code{\link{plotCrit}()}
 }
 \author{
 Quentin Grimonprez

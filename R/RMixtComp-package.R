@@ -18,8 +18,11 @@
 #' @importFrom parallel detectCores
 #' @importFrom graphics plot
 #' @importFrom utils head
-#' @importFrom ggplot2 ggplot aes_string labs geom_point geom_line
-#' @importFrom plotly plot_ly add_trace layout %>%
+#' @importFrom ggplot2 ggplot aes_string labs geom_point geom_line scale_x_continuous
+#' @importFrom plotly plot_ly add_trace layout %>% 
+#' @importFrom scales pretty_breaks
+#' @importFrom stats cov var
+#' 
 #' @title RMixtComp
 #' @docType package
 #' @aliases RMixtComp-package
@@ -40,7 +43,7 @@
 #' 
 #' Read the help page of \link{mixtCompLearn} for available models and data format. A summary of these information can be accessed with the function \link{availableModels}.
 #' 
-#' All utility functions (getters, graphical) are in the \code{RMixtCompUtilities} package.
+#' All utility functions (getters, graphical) are in the \code{\link{RMixtCompUtilities-package}} package.
 #' 
 #' In order to have an overview of the output, you can use \link{print.MixtCompLearn}, \link{summary.MixtCompLearn} and \link{plot.MixtCompLearn} functions,
 #' 
@@ -55,7 +58,12 @@
 #' 
 #' Datasets with running examples are provided: \link{titanic}, \link{CanadianWeather}, \link{prostate}, \link{simData}.
 #' 
+#' 
+#' Documentation about input and output format is available: \code{vignette("dataFormat")} and \code{vignette("mixtCompOutput")}.
+#' 
 #' @examples 
+#' 
+#' 
 #' data(simData)
 #'  
 #' # define the algorithm's parameters: you can use createAlgo function
@@ -82,7 +90,7 @@
 #' print(resPred)
 #' 
 #' 
-#' @seealso \code{\link{mixtCompLearn}} \code{\link{availableModels}} \code{RMixtCompUtilities}, \code{RMixtCompIO}. Other clustering packages: \code{Rmixmod}, \code{blockcluster}
+#' @seealso \code{\link{mixtCompLearn}} \code{\link{availableModels}} \code{\link{RMixtCompUtilities-package}}, \code{\link{RMixtCompIO-package}}. Other clustering packages: \code{Rmixmod}, \code{blockcluster}
 #' 
 #' @keywords package
 NULL

@@ -29,6 +29,8 @@ test_that("mixtCompLearn works in basic mode + predict", {
   dat <- data.frame(cont = c(rnorm(150, -2, 0.8), rnorm(150, 2, 0.8)),
                     categ = c("a", "b")[c(apply(rmultinom(150, 1, c(0.5, 0.5)), 2, which.max), apply(rmultinom(150, 1, c(0.2, 0.8)), 2, which.max))],
                     poiss = c(rpois(150, 2), rpois(150, 5)))
+  dat$categ[c(1, 10)] = NA
+  dat$cont[c(2, 5)] = NA
   
   expect_warning(resLearn <- mixtCompLearn(dat, nClass = 2, nRun = 3, nCore = 1), regexp = NA)
   
@@ -43,8 +45,13 @@ test_that("mixtCompLearn works in basic mode + predict", {
   expect_true(resLearn$algo$basicMode)
   expect_false(resLearn$algo$hierarchicalMode)
   expect_equal(resLearn$algo$dictionary, list(categ = list(old = c("a", "b"), new = c("1", "2"))))
-  expect_equal(resLearn$variable$data$categ$completed, as.character(dat$categ))
+  expect_equal(resLearn$variable$data$categ$completed[!is.na(dat$categ)], as.character(dat$categ)[!is.na(dat$categ)])
+  expect_equal(names(resLearn$variable$data$categ$stat), c("1", "10"))
+  expect_equal(sort(resLearn$variable$data$categ$stat[["1"]][, 1]), c("a", "b"))
+  expect_equal(sort(resLearn$variable$data$categ$stat[["10"]][, 1]), c("a", "b"))
   expect_equal(rownames(resLearn$variable$param$categ$stat), c("k: 1, modality: a", "k: 1, modality: b", "k: 2, modality: a", "k: 2, modality: b"))
+  
+  
   
   expect_warning(resPredict <- mixtCompPredict(dat, resLearn = resLearn), regexp = NA)
   
@@ -56,7 +63,7 @@ test_that("mixtCompLearn works in basic mode + predict", {
   expect_equal(resPredict$algo[1:7], resLearn$algo[1:7]) # check that algo param form resLearn are used
   expect_true(resPredict$algo$basicMode)
   expect_equal(resPredict$algo$dictionary, list(categ = list(old = c("a", "b"), new = c("1", "2"))))
-  expect_equal(resPredict$variable$data$categ$completed, as.character(dat$categ))
+  expect_equal(resPredict$variable$data$categ$completed[!is.na(dat$categ)], as.character(dat$categ)[!is.na(dat$categ)])
   expect_equal(rownames(resPredict$variable$param$categ$stat), c("k: 1, modality: a", "k: 1, modality: b", "k: 2, modality: a", "k: 2, modality: b"))
   
   
@@ -65,7 +72,9 @@ test_that("mixtCompLearn works in basic mode + predict", {
               categ1 = as.character(c(apply(rmultinom(150, 1, c(0.5, 0.5)), 2, which.max), apply(rmultinom(150, 1, c(0.2, 0.8)), 2, which.max))),
               categ2 = as.factor(c(apply(rmultinom(150, 1, c(0.5, 0.5)), 2, which.max), apply(rmultinom(150, 1, c(0.2, 0.8)), 2, which.max))),
               poiss = c(rpois(150, 2), rpois(150, 5)))
-  
+  dat$categ1[c(1, 10)] = NA
+  dat$categ2[c(2, 11)] = NA
+ 
   expect_warning(resLearn <- mixtCompLearn(dat, nClass = 2), regexp = NA)
   
   if(!is.null(resLearn$warnLog))
@@ -80,10 +89,17 @@ test_that("mixtCompLearn works in basic mode + predict", {
   expect_false(resLearn$algo$hierarchicalMode)
   expect_equal(resLearn$algo$dictionary, list(categ1 = list(old = c("1", "2"), new = c("1", "2")),
                                               categ2 = list(old = c("1", "2"), new = c("1", "2"))))
-  expect_equal(resLearn$variable$data$categ1$completed, as.character(dat$categ1))
-  expect_equal(resLearn$variable$data$categ2$completed, as.character(dat$categ2))
+  expect_equal(resLearn$variable$data$categ1$completed[!is.na(dat$categ1)], as.character(dat$categ1)[!is.na(dat$categ1)])
+  expect_equal(resLearn$variable$data$categ2$completed[!is.na(dat$categ2)], as.character(dat$categ2)[!is.na(dat$categ2)])
+  expect_equal(names(resLearn$variable$data$categ1$stat), c("1", "10"))
+  expect_equal(sort(resLearn$variable$data$categ1$stat[["1"]][, 1]), c("1", "2"))
+  expect_equal(sort(resLearn$variable$data$categ1$stat[["10"]][, 1]), c("1", "2"))
+  expect_equal(names(resLearn$variable$data$categ2$stat), c("2", "11"))
+  expect_equal(sort(resLearn$variable$data$categ2$stat[["2"]][, 1]), c("1", "2"))
+  expect_equal(sort(resLearn$variable$data$categ2$stat[["11"]][, 1]), c("1", "2"))
   expect_equal(rownames(resLearn$variable$param$categ1$stat), c("k: 1, modality: 1", "k: 1, modality: 2", "k: 2, modality: 1", "k: 2, modality: 2"))
   expect_equal(rownames(resLearn$variable$param$categ2$stat), c("k: 1, modality: 1", "k: 1, modality: 2", "k: 2, modality: 1", "k: 2, modality: 2"))
+  expect_type(getCompletedData(resLearn)$cont, "double")
   
   
   
@@ -98,8 +114,8 @@ test_that("mixtCompLearn works in basic mode + predict", {
   expect_true(resPredict$algo$basicMode)
   expect_equal(resPredict$algo$dictionary, list(categ1 = list(old = c("1", "2"), new = c("1", "2")),
                                                 categ2 = list(old = c("1", "2"), new = c("1", "2"))))
-  expect_equal(resPredict$variable$data$categ1$completed, as.character(dat$categ1))
-  expect_equal(resPredict$variable$data$categ2$completed, as.character(dat$categ2))
+  expect_equal(resPredict$variable$data$categ1$completed[!is.na(dat$categ1)], as.character(dat$categ1)[!is.na(dat$categ1)])
+  expect_equal(resPredict$variable$data$categ2$completed[!is.na(dat$categ2)], as.character(dat$categ2)[!is.na(dat$categ2)])
   expect_equal(rownames(resPredict$variable$param$categ1$stat), c("k: 1, modality: 1", "k: 1, modality: 2", "k: 2, modality: 1", "k: 2, modality: 2"))
   expect_equal(rownames(resPredict$variable$param$categ2$stat), c("k: 1, modality: 1", "k: 1, modality: 2", "k: 2, modality: 1", "k: 2, modality: 2"))
   
@@ -196,7 +212,7 @@ test_that("plot in basic mode + predict works with z_class as character", {
 
 
 
-test_that("mixtCompLearn works + mixtCompPredict", {
+test_that("mixtCompLearn works + mixtCompPredict + predict", {
   skip_on_cran()
   set.seed(42, kind = "Mersenne-Twister", normal.kind = "Inversion")
   
@@ -277,6 +293,12 @@ test_that("mixtCompLearn works + mixtCompPredict", {
   expect_equal(names(resPredict), c("mixture", "variable", "algo"))
   expect_equal(resPredict$algo$mode, "predict")
   expect_equal(resPredict$algo[1:7], resLearn$algo[1:7]) # check that algo param form resLearn are used
+  
+  
+  expect_warning(outPred <- predict(resLearn, type = "partition"), regexp = NA)
+  expect_equal(outPred, getPartition(resLearn, empiric = FALSE))
+  expect_warning(outPred <- predict(resLearn, data, type = "probabilities", nClass = 4), regexp = NA)
+  expect_equal(dim(outPred), c(nInd, 4))
   
 })
 
@@ -436,18 +458,18 @@ test_that("mixtCompLearn works in hierarchicalMode", {
     print(resLearn$warnLog)
   
   expect_equal(resLearn$warnLog, NULL)
-  expect_gte(RMixtCompIO:::rand.index(getPartition(resLearn$res[[1]]), simData$dataLearn$data.frame$z_class), 0.85)
-  expect_lte(norm(getTik(resLearn$res[[1]], log = FALSE) - getEmpiricTik(resLearn$res[[1]]))/resLearn$algo$nInd, 0.1)
+  expect_gte(RMixtCompIO:::rand.index(getPartition(resLearn$res[[2]]), simData$dataLearn$data.frame$z_class), 0.85)
+  expect_lte(norm(getTik(resLearn$res[[2]], log = FALSE) - getEmpiricTik(resLearn$res[[2]]))/resLearn$algo$nInd, 0.1)
   
   expect_equal(names(resLearn), c("mixture", "variable", "algo", "nRun", "criterion", "crit", "nClass", "res"))
   expect_equal(resLearn$nRun, 2)
   expect_equal(resLearn$criterion, "BIC")
-  expect_equal(dim(resLearn$crit), c(2, 2))
-  expect_equal(resLearn$nClass, 2:3)
+  expect_equal(dim(resLearn$crit), c(2, 3))
+  expect_equal(resLearn$nClass, 1:3)
   expect_equal(resLearn$algo$mode, "learn")
   expect_false(resLearn$algo$basicMode)
   expect_true(resLearn$algo$hierarchicalMode)
-  expect_equal(length(resLearn$res), 2)
+  expect_equal(length(resLearn$res), 3)
   expect_equal(names(resLearn$res[[1]]), c("mixture", "variable", "algo"))
   expect_warning(getPartition(resLearn), regexp = NA)
   expect_warning(getBIC(resLearn), regexp = NA)

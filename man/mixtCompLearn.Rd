@@ -29,13 +29,13 @@ mixtCompPredict(
 )
 }
 \arguments{
-\item{data}{a data.frame, a matrix or a named list containing the data (see \emph{Details} \emph{Data format} sections).}
+\item{data}{a data.frame, a matrix or a named list containing the data (see \emph{Details} and \emph{Data format} sections).}
 
 \item{model}{a named list containing models and hyperparameters (see \emph{Details} section).}
 
 \item{algo}{a list containing the parameters of the SEM-Gibbs algorithm (see \emph{Details} or \link{createAlgo}).}
 
-\item{nClass}{the number of class of the mixture model. Can be a vector for \emph{mixtCompLearn} only.}
+\item{nClass}{the number of classes of the mixture model. Can be a vector for \emph{mixtCompLearn} only.}
 
 \item{criterion}{"BIC" or "ICL". Criterion used for choosing the best model.}
 
@@ -147,7 +147,8 @@ The \emph{mixture} element contains
   \item{nbFreeParameters: number of free parameters of the mixture}
   \item{lnObservedLikelihood: observed loglikelihood}
   \item{lnCompletedLikelihood: completed loglikelihood}
-  \item{IDClass: entropy used to compute the discriminative power (see code of \link{plotDiscrimVar})}
+  \item{IDClass: entropy used to compute the discriminative power of variable: -\eqn{\sum_{i=1}^n t_{ikj} log(t_{ikj})/(n * log(K))}}
+  \item{IDClassBar: entropy used to compute the discriminative power of variable: -\eqn{\sum_{i=1}^n (1-t_{ikj}) log((1-t_{ikj}))/(n * log(K))}}
   \item{delta: similarities between variables (see \link{heatmapVar})}
   \item{completedProbabilityLogBurnIn: evolution of the completed log-probability during the burn-in period (can be used to check the convergence and determine the ideal number of iteration)}
   \item{completedProbabilityLogRun: evolution of the completed log-probability  after the burn-in period (can be used to check the convergence and determine the ideal number of iteration)} 
@@ -194,6 +195,7 @@ output  \cr
 |        \tab         \tab |_ lnCompletedLikelihood\cr
 |        \tab         \tab |_ lnObservedLikelihood \cr
 |        \tab         \tab |_ IDClass  \cr
+|        \tab         \tab |_ IDClassBar  \cr
 |        \tab         \tab |_ delta  \cr
 |        \tab         \tab |_ runTime \cr
 |        \tab         \tab |_ nbFreeParameters \cr
@@ -265,11 +267,11 @@ algo <- list(nbBurnInIter = 50,
 
 # run RMixtComp in unsupervised clustering mode + data as matrix
 resLearn1 <- mixtCompLearn(simData$dataLearn$matrix, simData$model$unsupervised[1:3], algo,
-                           nClass = 2:3, nRun = 2, nCore = 1)
+                           nClass = 1:2, nRun = 2, nCore = 1)
 
 # run RMixtComp in supervised clustering mode + data as matrix
 resLearn2 <- mixtCompLearn(simData$dataLearn$data.frame, simData$model$supervised[1:3], algo, 
-                           nClass = 2:3, nRun = 2, nCore = 1)
+                           nClass = 1:2, nRun = 2, nCore = 1)
 
 # run RMixtComp in predict mode + data as list
 resPredict <- mixtCompPredict(simData$dataPredict$list, simData$model$unsupervised[1:3], algo,

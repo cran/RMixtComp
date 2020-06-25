@@ -8,21 +8,37 @@
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="Quentin Grimonprez" />
 
-<meta name="date" content="2020-01-07" />
+<meta name="date" content="2020-06-24" />
 
 <title>Data format used in RMixtComp</title>
 
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -32,14 +48,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -48,9 +66,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -117,9 +135,6 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
-}
-#header {
-text-align: center;
 }
 #TOC {
 clear: both;
@@ -288,7 +303,8 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
@@ -303,7 +319,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">Data format used in RMixtComp</h1>
 <h4 class="author">Quentin Grimonprez</h4>
-<h4 class="date">2020-01-07</h4>
+<h4 class="date">2020-06-24</h4>
 
 
 <div id="TOC">
@@ -353,7 +369,7 @@ data &lt;- matrix(c(elem11, elem12, elem13, elem14,
                  elem31, elem32, elem33, elem34), 
                  ncol = 3, dimnames = list(NULL, c(&quot;varName1&quot;, &quot;varName2&quot;, &quot;varName3&quot;)))</code></pre>
 <p>Exemple:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">dat &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">x =</span> <span class="kw">rnorm</span>(<span class="dv">100</span>), <span class="dt">y =</span> <span class="kw">rpois</span>(<span class="dv">100</span>, <span class="dv">2</span>), <span class="dt">z =</span> <span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">-3</span>, <span class="dv">1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>dat &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">x =</span> <span class="kw">rnorm</span>(<span class="dv">100</span>), <span class="dt">y =</span> <span class="kw">rpois</span>(<span class="dv">100</span>, <span class="dv">2</span>), <span class="dt">z =</span> <span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dv">-3</span>, <span class="dv">1</span>))</span></code></pre></div>
 </div>
 <div id="model" class="section level3">
 <h3>Model</h3>
@@ -363,7 +379,7 @@ data &lt;- matrix(c(elem11, elem12, elem13, elem14,
               varName3 = list(type = &quot;Model3&quot;, paramStr = &quot;&quot;))</code></pre>
 <p>The model object can contain less variables than the data object. Only variables listed in the model object are used for clustering.</p>
 <p>Exemple:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">dat &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">x =</span> <span class="kw">list</span>(<span class="dt">type =</span> <span class="st">&quot;Gaussian&quot;</span>, <span class="dt">paramStr =</span> <span class="st">&quot;&quot;</span>), <span class="dt">y =</span> <span class="st">&quot;Poisson&quot;</span>, <span class="dt">z =</span> <span class="st">&quot;Gaussian&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>dat &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">x =</span> <span class="kw">list</span>(<span class="dt">type =</span> <span class="st">&quot;Gaussian&quot;</span>, <span class="dt">paramStr =</span> <span class="st">&quot;&quot;</span>), <span class="dt">y =</span> <span class="st">&quot;Poisson&quot;</span>, <span class="dt">z =</span> <span class="st">&quot;Gaussian&quot;</span>)</span></code></pre></div>
 </div>
 <div id="algo" class="section level3">
 <h3>Algo</h3>
@@ -380,18 +396,18 @@ data &lt;- matrix(c(elem11, elem12, elem13, elem14,
 <li><strong>nStableCriterion</strong> Number of iterations of partition stability to stop earlier the SEM.</li>
 </ul>
 <p>User can add extra elements, they will be copied in the output object.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">algo &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">nbBurnInIter =</span> <span class="dv">100</span>,</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">             <span class="dt">nbIter =</span> <span class="dv">100</span>,</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">             <span class="dt">nbGibbsBurnInIter =</span> <span class="dv">100</span>,</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">             <span class="dt">nbGibbsIter =</span> <span class="dv">100</span>,</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">             <span class="dt">nInitPerClass =</span> <span class="dv">2</span>,</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">             <span class="dt">nSemTry =</span> <span class="dv">10</span>,</a>
-<a class="sourceLine" id="cb5-7" data-line-number="7">             <span class="dt">confidenceLevel =</span> <span class="fl">0.95</span>,</a>
-<a class="sourceLine" id="cb5-8" data-line-number="8">             <span class="dt">ratioStableCriterion =</span> <span class="fl">0.9</span>,</a>
-<a class="sourceLine" id="cb5-9" data-line-number="9">             <span class="dt">nStableCriterion =</span> <span class="dv">7</span>,</a>
-<a class="sourceLine" id="cb5-10" data-line-number="10">             <span class="dt">notes =</span> <span class="st">&quot;You can add any note you wish in non mandatory fields like this one (notes). They will be copied to the output.&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>algo &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">nbBurnInIter =</span> <span class="dv">100</span>,</span>
+<span id="cb5-2"><a href="#cb5-2"></a>             <span class="dt">nbIter =</span> <span class="dv">100</span>,</span>
+<span id="cb5-3"><a href="#cb5-3"></a>             <span class="dt">nbGibbsBurnInIter =</span> <span class="dv">100</span>,</span>
+<span id="cb5-4"><a href="#cb5-4"></a>             <span class="dt">nbGibbsIter =</span> <span class="dv">100</span>,</span>
+<span id="cb5-5"><a href="#cb5-5"></a>             <span class="dt">nInitPerClass =</span> <span class="dv">2</span>,</span>
+<span id="cb5-6"><a href="#cb5-6"></a>             <span class="dt">nSemTry =</span> <span class="dv">10</span>,</span>
+<span id="cb5-7"><a href="#cb5-7"></a>             <span class="dt">confidenceLevel =</span> <span class="fl">0.95</span>,</span>
+<span id="cb5-8"><a href="#cb5-8"></a>             <span class="dt">ratioStableCriterion =</span> <span class="fl">0.9</span>,</span>
+<span id="cb5-9"><a href="#cb5-9"></a>             <span class="dt">nStableCriterion =</span> <span class="dv">7</span>,</span>
+<span id="cb5-10"><a href="#cb5-10"></a>             <span class="dt">notes =</span> <span class="st">&quot;You can add any note you wish in non mandatory fields like this one (notes). They will be copied to the output.&quot;</span>)</span></code></pre></div>
 <p>To easily create this list, the function <code>createAlgo</code> can be used. It creates the desired list with default values.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">algo &lt;-<span class="st"> </span><span class="kw">createAlgo</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>algo &lt;-<span class="st"> </span><span class="kw">createAlgo</span>()</span></code></pre></div>
 </div>
 </div>
 <div id="available-models" class="section level2">
@@ -520,41 +536,41 @@ f_k(x = j) = \prod_{j=1}^K p_{k,j}^{a_j} \quad \text{with} \quad a_j = \begin{ca
 <div id="real-data-gaussian" class="section level3">
 <h3>Real Data: Gaussian</h3>
 <p>Real values are saved with the dot as decimal separator. Missing data are indicated by a <code>?</code>. Partial data can be provided through intervals denoted by <code>[a:b]</code> where <code>a</code> (resp. <code>b</code>) is a real or <code>-inf</code> (resp. <code>+inf</code>).</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">data &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">  <span class="dt">varGauss1 =</span> <span class="kw">c</span>(<span class="st">&quot;2.1&quot;</span>, <span class="st">&quot;-0.26&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;[0.56:1.28]&quot;</span>, <span class="st">&quot;1.21&quot;</span>, <span class="st">&quot;[-inf:-0.11]&quot;</span>, <span class="st">&quot;[-1.65:+inf]&quot;</span>)</a>
-<a class="sourceLine" id="cb7-3" data-line-number="3">)</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb7-5" data-line-number="5">data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
-<a class="sourceLine" id="cb7-6" data-line-number="6">  <span class="dt">varGauss1 =</span> <span class="kw">c</span>(<span class="st">&quot;2.1&quot;</span>, <span class="st">&quot;-0.26&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;[0.56:1.28]&quot;</span>, <span class="st">&quot;1.21&quot;</span>, <span class="st">&quot;[-inf:-0.11]&quot;</span>, <span class="st">&quot;[-1.65:+inf]&quot;</span>)</a>
-<a class="sourceLine" id="cb7-7" data-line-number="7">)</a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb7-9" data-line-number="9">data &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="st">&quot;2.1&quot;</span>, <span class="st">&quot;-0.26&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;[0.56:1.28]&quot;</span>, <span class="st">&quot;1.21&quot;</span>, <span class="st">&quot;[-inf:-0.11]&quot;</span>, <span class="st">&quot;[-1.65:+inf]&quot;</span>), <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varGauss1&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>data &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb7-2"><a href="#cb7-2"></a>  <span class="dt">varGauss1 =</span> <span class="kw">c</span>(<span class="st">&quot;2.1&quot;</span>, <span class="st">&quot;-0.26&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;[0.56:1.28]&quot;</span>, <span class="st">&quot;1.21&quot;</span>, <span class="st">&quot;[-inf:-0.11]&quot;</span>, <span class="st">&quot;[-1.65:+inf]&quot;</span>)</span>
+<span id="cb7-3"><a href="#cb7-3"></a>)</span>
+<span id="cb7-4"><a href="#cb7-4"></a></span>
+<span id="cb7-5"><a href="#cb7-5"></a>data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb7-6"><a href="#cb7-6"></a>  <span class="dt">varGauss1 =</span> <span class="kw">c</span>(<span class="st">&quot;2.1&quot;</span>, <span class="st">&quot;-0.26&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;[0.56:1.28]&quot;</span>, <span class="st">&quot;1.21&quot;</span>, <span class="st">&quot;[-inf:-0.11]&quot;</span>, <span class="st">&quot;[-1.65:+inf]&quot;</span>)</span>
+<span id="cb7-7"><a href="#cb7-7"></a>)</span>
+<span id="cb7-8"><a href="#cb7-8"></a></span>
+<span id="cb7-9"><a href="#cb7-9"></a>data &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="st">&quot;2.1&quot;</span>, <span class="st">&quot;-0.26&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;[0.56:1.28]&quot;</span>, <span class="st">&quot;1.21&quot;</span>, <span class="st">&quot;[-inf:-0.11]&quot;</span>, <span class="st">&quot;[-1.65:+inf]&quot;</span>), <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varGauss1&quot;</span>)))</span></code></pre></div>
 </div>
 <div id="real-positive-data-weibull" class="section level3">
 <h3>Real Positive Data: Weibull</h3>
 <p>Weibull data are real positive values with the dot as decimal separator. Missing data are indicated by a <code>?</code>. Partial data can be provided through intervals denoted by <code>[a:b]</code> where <code>a</code> and <code>b</code> are positive reals (<code>b</code> can be <code>+inf</code>).</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">data &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2">  <span class="dt">varWeib1 =</span> <span class="kw">c</span>(<span class="st">&quot;2.1&quot;</span>, <span class="st">&quot;0.26&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;[0.56:1.28]&quot;</span>, <span class="st">&quot;1.21&quot;</span>, <span class="st">&quot;[0:5.11]&quot;</span>, <span class="st">&quot;[1.65:+inf]&quot;</span>)</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3">)</a>
-<a class="sourceLine" id="cb8-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5">data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
-<a class="sourceLine" id="cb8-6" data-line-number="6">  <span class="dt">varWeib1 =</span> <span class="kw">c</span>(<span class="st">&quot;2.1&quot;</span>, <span class="st">&quot;0.26&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;[0.56:1.28]&quot;</span>, <span class="st">&quot;1.21&quot;</span>, <span class="st">&quot;[0:5.11]&quot;</span>, <span class="st">&quot;[1.65:+inf]&quot;</span>)</a>
-<a class="sourceLine" id="cb8-7" data-line-number="7">)</a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9">data &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="st">&quot;2.1&quot;</span>, <span class="st">&quot;0.26&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;[0.56:1.28]&quot;</span>, <span class="st">&quot;1.21&quot;</span>, <span class="st">&quot;[0:5.11]&quot;</span>, <span class="st">&quot;[1.65:+inf]&quot;</span>), <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varWeib1&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>data &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb8-2"><a href="#cb8-2"></a>  <span class="dt">varWeib1 =</span> <span class="kw">c</span>(<span class="st">&quot;2.1&quot;</span>, <span class="st">&quot;0.26&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;[0.56:1.28]&quot;</span>, <span class="st">&quot;1.21&quot;</span>, <span class="st">&quot;[0:5.11]&quot;</span>, <span class="st">&quot;[1.65:+inf]&quot;</span>)</span>
+<span id="cb8-3"><a href="#cb8-3"></a>)</span>
+<span id="cb8-4"><a href="#cb8-4"></a></span>
+<span id="cb8-5"><a href="#cb8-5"></a>data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb8-6"><a href="#cb8-6"></a>  <span class="dt">varWeib1 =</span> <span class="kw">c</span>(<span class="st">&quot;2.1&quot;</span>, <span class="st">&quot;0.26&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;[0.56:1.28]&quot;</span>, <span class="st">&quot;1.21&quot;</span>, <span class="st">&quot;[0:5.11]&quot;</span>, <span class="st">&quot;[1.65:+inf]&quot;</span>)</span>
+<span id="cb8-7"><a href="#cb8-7"></a>)</span>
+<span id="cb8-8"><a href="#cb8-8"></a></span>
+<span id="cb8-9"><a href="#cb8-9"></a>data &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="st">&quot;2.1&quot;</span>, <span class="st">&quot;0.26&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;[0.56:1.28]&quot;</span>, <span class="st">&quot;1.21&quot;</span>, <span class="st">&quot;[0:5.11]&quot;</span>, <span class="st">&quot;[1.65:+inf]&quot;</span>), <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varWeib1&quot;</span>)))</span></code></pre></div>
 </div>
 <div id="counting-data-poisson-negativebinomial" class="section level3">
 <h3>Counting Data: Poisson &amp; NegativeBinomial</h3>
 <p>Counting data are positive integer. Missing data are indicated by a <code>?</code>. Partial data can be provided through intervals denoted by <code>[a:b]</code> where <code>a</code> and <code>b</code> are positive integers (<code>b</code> can be <code>+inf</code>).</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">data &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">  <span class="dt">varCount1 =</span> <span class="kw">c</span>(<span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;4&quot;</span>, <span class="st">&quot;[2:4]&quot;</span>, <span class="st">&quot;[4:+inf]&quot;</span>, <span class="st">&quot;1&quot;</span>)</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3">)</a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5">data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
-<a class="sourceLine" id="cb9-6" data-line-number="6">  <span class="dt">varCount1 =</span> <span class="kw">c</span>(<span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;4&quot;</span>, <span class="st">&quot;[2:4]&quot;</span>, <span class="st">&quot;[4:+inf]&quot;</span>, <span class="st">&quot;1&quot;</span>)</a>
-<a class="sourceLine" id="cb9-7" data-line-number="7">)</a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb9-9" data-line-number="9">data &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;4&quot;</span>, <span class="st">&quot;[2:4]&quot;</span>, <span class="st">&quot;[4:+inf]&quot;</span>, <span class="st">&quot;1&quot;</span>), <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varCount1&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>data &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb9-2"><a href="#cb9-2"></a>  <span class="dt">varCount1 =</span> <span class="kw">c</span>(<span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;4&quot;</span>, <span class="st">&quot;[2:4]&quot;</span>, <span class="st">&quot;[4:+inf]&quot;</span>, <span class="st">&quot;1&quot;</span>)</span>
+<span id="cb9-3"><a href="#cb9-3"></a>)</span>
+<span id="cb9-4"><a href="#cb9-4"></a></span>
+<span id="cb9-5"><a href="#cb9-5"></a>data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb9-6"><a href="#cb9-6"></a>  <span class="dt">varCount1 =</span> <span class="kw">c</span>(<span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;4&quot;</span>, <span class="st">&quot;[2:4]&quot;</span>, <span class="st">&quot;[4:+inf]&quot;</span>, <span class="st">&quot;1&quot;</span>)</span>
+<span id="cb9-7"><a href="#cb9-7"></a>)</span>
+<span id="cb9-8"><a href="#cb9-8"></a></span>
+<span id="cb9-9"><a href="#cb9-9"></a>data &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;4&quot;</span>, <span class="st">&quot;[2:4]&quot;</span>, <span class="st">&quot;[4:+inf]&quot;</span>, <span class="st">&quot;1&quot;</span>), <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varCount1&quot;</span>)))</span></code></pre></div>
 </div>
 <div id="categorical-data-multinomial" class="section level3">
 <h3>Categorical Data: Multinomial</h3>
@@ -591,48 +607,48 @@ f_k(x = j) = \prod_{j=1}^K p_{k,j}^{a_j} \quad \text{with} \quad a_j = \begin{ca
 </tbody>
 </table>
 <p>after formatting:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">data &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">  <span class="dt">varCat1 =</span> <span class="kw">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;{2,3}&quot;</span>),</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">  <span class="dt">varCat2 =</span> <span class="kw">c</span>(<span class="st">&quot;3&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;{1,2}&quot;</span>, <span class="st">&quot;3&quot;</span>)</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">)</a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb10-6" data-line-number="6">data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
-<a class="sourceLine" id="cb10-7" data-line-number="7">  <span class="dt">varCat1 =</span> <span class="kw">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;{2,3}&quot;</span>),</a>
-<a class="sourceLine" id="cb10-8" data-line-number="8">  <span class="dt">varCat2 =</span> <span class="kw">c</span>(<span class="st">&quot;3&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;{1,2}&quot;</span>, <span class="st">&quot;3&quot;</span>)</a>
-<a class="sourceLine" id="cb10-9" data-line-number="9">)</a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11">data &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;{2,3}&quot;</span>,</a>
-<a class="sourceLine" id="cb10-12" data-line-number="12">                 <span class="st">&quot;3&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;{1,2}&quot;</span>, <span class="st">&quot;3&quot;</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varCat1&quot;</span>, <span class="st">&quot;varCat2&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>data &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb10-2"><a href="#cb10-2"></a>  <span class="dt">varCat1 =</span> <span class="kw">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;{2,3}&quot;</span>),</span>
+<span id="cb10-3"><a href="#cb10-3"></a>  <span class="dt">varCat2 =</span> <span class="kw">c</span>(<span class="st">&quot;3&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;{1,2}&quot;</span>, <span class="st">&quot;3&quot;</span>)</span>
+<span id="cb10-4"><a href="#cb10-4"></a>)</span>
+<span id="cb10-5"><a href="#cb10-5"></a></span>
+<span id="cb10-6"><a href="#cb10-6"></a>data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb10-7"><a href="#cb10-7"></a>  <span class="dt">varCat1 =</span> <span class="kw">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;{2,3}&quot;</span>),</span>
+<span id="cb10-8"><a href="#cb10-8"></a>  <span class="dt">varCat2 =</span> <span class="kw">c</span>(<span class="st">&quot;3&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;{1,2}&quot;</span>, <span class="st">&quot;3&quot;</span>)</span>
+<span id="cb10-9"><a href="#cb10-9"></a>)</span>
+<span id="cb10-10"><a href="#cb10-10"></a></span>
+<span id="cb10-11"><a href="#cb10-11"></a>data &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;{2,3}&quot;</span>,</span>
+<span id="cb10-12"><a href="#cb10-12"></a>                 <span class="st">&quot;3&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;{1,2}&quot;</span>, <span class="st">&quot;3&quot;</span>), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varCat1&quot;</span>, <span class="st">&quot;varCat2&quot;</span>)))</span></code></pre></div>
 </div>
 <div id="rank-data" class="section level3">
 <h3>Rank Data</h3>
-<p>The format of a rank is: <code>o_1,..., o_j</code> where <code>o_1</code> is an integer corresponding to the the number of the object ranked in 1st position. For example: <code>4,2,1,3</code> means that the fourth object is ranked first then the second object is in second position and so on. Missing data can be specified by replacing and object by a <code>?</code> or a list of potential object, for example: <code>4, {2 3}, {2 1}, ?</code> means that the object ranked in second position is either the object number 2 or the object number 3, then the object ranked in third position is either the object 2 or 1 and the last one can be anything. A totally missing rank is spedified by a sequence of <code>?</code> separated by commas, e.g. <code>?,?,?,?</code> for a totally missing rank of length 4.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">data &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">  <span class="dt">varRank1 =</span> <span class="kw">c</span>(<span class="st">&quot;1,2,3,4&quot;</span>, <span class="st">&quot;2,1,3,4&quot;</span>, <span class="st">&quot;?,?,?,?&quot;</span>, <span class="st">&quot;4,{2,3},{1,3},{1,2}&quot;</span>, <span class="st">&quot;2,{1,3},4,{1,3}&quot;</span>)</a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">)</a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5">data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
-<a class="sourceLine" id="cb11-6" data-line-number="6">  <span class="dt">varRank1 =</span> <span class="kw">c</span>(<span class="st">&quot;1,2,3,4&quot;</span>, <span class="st">&quot;2,1,3,4&quot;</span>, <span class="st">&quot;?,?,?,?&quot;</span>, <span class="st">&quot;4,{2,3},{1,3},{1,2}&quot;</span>, <span class="st">&quot;2,{1,3},4,{1,3}&quot;</span>)</a>
-<a class="sourceLine" id="cb11-7" data-line-number="7">)</a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9">data &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="st">&quot;1,2,3,4&quot;</span>, <span class="st">&quot;2,1,3,4&quot;</span>, <span class="st">&quot;?,?,?,?&quot;</span>, <span class="st">&quot;4,{2,3},{1,3},{1,2}&quot;</span>, <span class="st">&quot;2,{1,3},4,{1,3}&quot;</span>), <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varRank1&quot;</span>)))</a></code></pre></div>
+<p>The format of a rank is: <code>o_1,..., o_j</code> where <code>o_1</code> is an integer corresponding to the the number of the object ranked in 1st position. For example: <code>4,2,1,3</code> means that the fourth object is ranked first then the second object is in second position and so on. Missing data can be specified by replacing and object by a <code>?</code> or a list of potential object, for example: <code>4, {2 3}, {2 1}, ?</code> means that the object ranked in second position is either the object number 2 or the object number 3, then the object ranked in third position is either the object 2 or 1 and the last one can be anything. A totally missing rank is spedified by a sequence of <code>?</code> separated by commas, e.g. <code>?,?,?,?</code> for a totally missing rank of length 4.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>data &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb11-2"><a href="#cb11-2"></a>  <span class="dt">varRank1 =</span> <span class="kw">c</span>(<span class="st">&quot;1,2,3,4&quot;</span>, <span class="st">&quot;2,1,3,4&quot;</span>, <span class="st">&quot;?,?,?,?&quot;</span>, <span class="st">&quot;4,{2,3},{1,3},{1,2}&quot;</span>, <span class="st">&quot;2,{1,3},4,{1,3}&quot;</span>)</span>
+<span id="cb11-3"><a href="#cb11-3"></a>)</span>
+<span id="cb11-4"><a href="#cb11-4"></a></span>
+<span id="cb11-5"><a href="#cb11-5"></a>data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb11-6"><a href="#cb11-6"></a>  <span class="dt">varRank1 =</span> <span class="kw">c</span>(<span class="st">&quot;1,2,3,4&quot;</span>, <span class="st">&quot;2,1,3,4&quot;</span>, <span class="st">&quot;?,?,?,?&quot;</span>, <span class="st">&quot;4,{2,3},{1,3},{1,2}&quot;</span>, <span class="st">&quot;2,{1,3},4,{1,3}&quot;</span>)</span>
+<span id="cb11-7"><a href="#cb11-7"></a>)</span>
+<span id="cb11-8"><a href="#cb11-8"></a></span>
+<span id="cb11-9"><a href="#cb11-9"></a>data &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="st">&quot;1,2,3,4&quot;</span>, <span class="st">&quot;2,1,3,4&quot;</span>, <span class="st">&quot;?,?,?,?&quot;</span>, <span class="st">&quot;4,{2,3},{1,3},{1,2}&quot;</span>, <span class="st">&quot;2,{1,3},4,{1,3}&quot;</span>), <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varRank1&quot;</span>)))</span></code></pre></div>
 </div>
 <div id="functional-data-func_cs-func_sharedalpha_cs" class="section level3">
 <h3>Functional Data: Func_CS &amp; Func_SharedAlpha_CS</h3>
 <p>The format of a functional data is: <code>time_1:value_1,..., time_j:value_j</code>. Between individuals, functional data can have different length and different time values. In the case of a functional model, <code>nSub: S, nCoeff: C</code> must be indicated in the third row of the descriptor file. <em>S</em> is the number of subregressions in a functional data and <em>C</em> the number of coefficients of each regression (2 = linear, 3 = quadratic, …). Totally missing data are not supported. Time points with missing values must not be included.</p>
 <p>For example if you have a time vector <code>1 2 3 4 5 6 8 12</code> and a value vector <code>0.8 0.6 0.88 0.42 0.62 0.75 0.72 0.66</code> for one individual, the MixtComp format is <code>1:0.8,2:0.6,3:0.88,4:0.42,5:0.62,6:0.75,8:0.72,12:0.66</code>.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">data &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">  <span class="dt">varFunc1 =</span> <span class="kw">c</span>(<span class="st">&quot;1:0.8,2:0.6,3:0.88,4:0.42,5:0.62,6:0.75,8:0.72,12:0.66&quot;</span>, <span class="st">&quot;1:0.5,2:0.4,4:0.32&quot;</span>, <span class="st">&quot;3:-0.8,5:-0.6,6:-0.88,8:-0.42,10:0.62&quot;</span>)</a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">)</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb12-5" data-line-number="5">data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
-<a class="sourceLine" id="cb12-6" data-line-number="6">  <span class="dt">varFunc1 =</span> <span class="kw">c</span>(<span class="st">&quot;1:0.8,2:0.6,3:0.88,4:0.42,5:0.62,6:0.75,8:0.72,12:0.66&quot;</span>, <span class="st">&quot;1:0.5,2:0.4,4:0.32&quot;</span>, <span class="st">&quot;3:-0.8,5:-0.6,6:-0.88,8:-0.42,10:0.62&quot;</span>)</a>
-<a class="sourceLine" id="cb12-7" data-line-number="7">)</a>
-<a class="sourceLine" id="cb12-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb12-9" data-line-number="9">data &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="st">&quot;1:0.8,2:0.6,3:0.88,4:0.42,5:0.62,6:0.75,8:0.72,12:0.66&quot;</span>, <span class="st">&quot;1:0.5,2:0.4,4:0.32&quot;</span>, <span class="st">&quot;3:-0.8,5:-0.6,6:-0.88,8:-0.42,10:0.62&quot;</span>), <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varFunc1&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>data &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb12-2"><a href="#cb12-2"></a>  <span class="dt">varFunc1 =</span> <span class="kw">c</span>(<span class="st">&quot;1:0.8,2:0.6,3:0.88,4:0.42,5:0.62,6:0.75,8:0.72,12:0.66&quot;</span>, <span class="st">&quot;1:0.5,2:0.4,4:0.32&quot;</span>, <span class="st">&quot;3:-0.8,5:-0.6,6:-0.88,8:-0.42,10:0.62&quot;</span>)</span>
+<span id="cb12-3"><a href="#cb12-3"></a>)</span>
+<span id="cb12-4"><a href="#cb12-4"></a></span>
+<span id="cb12-5"><a href="#cb12-5"></a>data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb12-6"><a href="#cb12-6"></a>  <span class="dt">varFunc1 =</span> <span class="kw">c</span>(<span class="st">&quot;1:0.8,2:0.6,3:0.88,4:0.42,5:0.62,6:0.75,8:0.72,12:0.66&quot;</span>, <span class="st">&quot;1:0.5,2:0.4,4:0.32&quot;</span>, <span class="st">&quot;3:-0.8,5:-0.6,6:-0.88,8:-0.42,10:0.62&quot;</span>)</span>
+<span id="cb12-7"><a href="#cb12-7"></a>)</span>
+<span id="cb12-8"><a href="#cb12-8"></a></span>
+<span id="cb12-9"><a href="#cb12-9"></a>data &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="st">&quot;1:0.8,2:0.6,3:0.88,4:0.42,5:0.62,6:0.75,8:0.72,12:0.66&quot;</span>, <span class="st">&quot;1:0.5,2:0.4,4:0.32&quot;</span>, <span class="st">&quot;3:-0.8,5:-0.6,6:-0.88,8:-0.42,10:0.62&quot;</span>), <span class="dt">ncol =</span> <span class="dv">1</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varFunc1&quot;</span>)))</span></code></pre></div>
 <div id="r-functional-model" class="section level4">
 <h4>R Functional Model</h4>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">varName1 =</span> <span class="kw">list</span>(<span class="dt">type =</span> <span class="st">&quot;Func_CS&quot;</span>, <span class="dt">paramStr =</span> <span class="st">&quot;nSub: 3, nCoeff: 2&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>model &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">varName1 =</span> <span class="kw">list</span>(<span class="dt">type =</span> <span class="st">&quot;Func_CS&quot;</span>, <span class="dt">paramStr =</span> <span class="st">&quot;nSub: 3, nCoeff: 2&quot;</span>))</span></code></pre></div>
 </div>
 </div>
 <div id="missing-data-summary" class="section level3">
@@ -724,21 +740,21 @@ f_k(x = j) = \prod_{j=1}^K p_{k,j}^{a_j} \quad \text{with} \quad a_j = \begin{ca
 <div id="semi-supervised-clustering" class="section level3">
 <h3>(Semi-)Supervised Clustering</h3>
 <p>To perform a (semi-)supervised clustering, user can add a variable named <code>z_class</code> (with eventually some missing values) with <code>&quot;LatentClass&quot;</code> as model. Missing data are indicated by a <code>?</code>. For partial data, a list of possible values can be provided by <code>{a_1,...,a_j}</code>, where <code>a_i</code> denotes a class number.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">data &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">  <span class="dt">varGauss1 =</span> <span class="kw">c</span>(<span class="st">&quot;2.1&quot;</span>, <span class="st">&quot;-0.26&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;[0.56:1.28]&quot;</span>, <span class="st">&quot;1.21&quot;</span>, <span class="st">&quot;[-inf:-0.11]&quot;</span>, <span class="st">&quot;[-1.65:+inf]&quot;</span>),</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">  <span class="dt">z_class =</span> <span class="kw">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;{1,3}&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;1&quot;</span>)</a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">)</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb14-6" data-line-number="6">data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</a>
-<a class="sourceLine" id="cb14-7" data-line-number="7">  <span class="dt">varGauss1 =</span> <span class="kw">c</span>(<span class="st">&quot;2.1&quot;</span>, <span class="st">&quot;-0.26&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;[0.56:1.28]&quot;</span>, <span class="st">&quot;1.21&quot;</span>, <span class="st">&quot;[-inf:-0.11]&quot;</span>, <span class="st">&quot;[-1.65:+inf]&quot;</span>),</a>
-<a class="sourceLine" id="cb14-8" data-line-number="8">  <span class="dt">z_class =</span> <span class="kw">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;{1,3}&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;1&quot;</span>)</a>
-<a class="sourceLine" id="cb14-9" data-line-number="9">)</a>
-<a class="sourceLine" id="cb14-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb14-11" data-line-number="11">data &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="st">&quot;2.1&quot;</span>, <span class="st">&quot;-0.26&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;[0.56:1.28]&quot;</span>, <span class="st">&quot;1.21&quot;</span>, <span class="st">&quot;[-inf:-0.11]&quot;</span>, <span class="st">&quot;[-1.65:+inf]&quot;</span>,</a>
-<a class="sourceLine" id="cb14-12" data-line-number="12">                 <span class="st">&quot;1&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;{1,3}&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;1&quot;</span>), </a>
-<a class="sourceLine" id="cb14-13" data-line-number="13">                 <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varGauss1&quot;</span>, <span class="st">&quot;z_class&quot;</span>)))</a></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">varGauss1 =</span> <span class="kw">list</span>(<span class="dt">type =</span> <span class="st">&quot;Gaussian&quot;</span>, <span class="dt">paramStr =</span> <span class="st">&quot;&quot;</span>),</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">              <span class="dt">z_class =</span> <span class="kw">list</span>(<span class="dt">type =</span> <span class="st">&quot;LatentClass&quot;</span>, <span class="dt">paramStr =</span> <span class="st">&quot;&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>data &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
+<span id="cb14-2"><a href="#cb14-2"></a>  <span class="dt">varGauss1 =</span> <span class="kw">c</span>(<span class="st">&quot;2.1&quot;</span>, <span class="st">&quot;-0.26&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;[0.56:1.28]&quot;</span>, <span class="st">&quot;1.21&quot;</span>, <span class="st">&quot;[-inf:-0.11]&quot;</span>, <span class="st">&quot;[-1.65:+inf]&quot;</span>),</span>
+<span id="cb14-3"><a href="#cb14-3"></a>  <span class="dt">z_class =</span> <span class="kw">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;{1,3}&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;1&quot;</span>)</span>
+<span id="cb14-4"><a href="#cb14-4"></a>)</span>
+<span id="cb14-5"><a href="#cb14-5"></a></span>
+<span id="cb14-6"><a href="#cb14-6"></a>data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
+<span id="cb14-7"><a href="#cb14-7"></a>  <span class="dt">varGauss1 =</span> <span class="kw">c</span>(<span class="st">&quot;2.1&quot;</span>, <span class="st">&quot;-0.26&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;[0.56:1.28]&quot;</span>, <span class="st">&quot;1.21&quot;</span>, <span class="st">&quot;[-inf:-0.11]&quot;</span>, <span class="st">&quot;[-1.65:+inf]&quot;</span>),</span>
+<span id="cb14-8"><a href="#cb14-8"></a>  <span class="dt">z_class =</span> <span class="kw">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;{1,3}&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;1&quot;</span>)</span>
+<span id="cb14-9"><a href="#cb14-9"></a>)</span>
+<span id="cb14-10"><a href="#cb14-10"></a></span>
+<span id="cb14-11"><a href="#cb14-11"></a>data &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(<span class="st">&quot;2.1&quot;</span>, <span class="st">&quot;-0.26&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;[0.56:1.28]&quot;</span>, <span class="st">&quot;1.21&quot;</span>, <span class="st">&quot;[-inf:-0.11]&quot;</span>, <span class="st">&quot;[-1.65:+inf]&quot;</span>,</span>
+<span id="cb14-12"><a href="#cb14-12"></a>                 <span class="st">&quot;1&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;{1,3}&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;1&quot;</span>), </span>
+<span id="cb14-13"><a href="#cb14-13"></a>                 <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">dimnames =</span> <span class="kw">list</span>(<span class="ot">NULL</span>, <span class="kw">c</span>(<span class="st">&quot;varGauss1&quot;</span>, <span class="st">&quot;z_class&quot;</span>)))</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>model &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">varGauss1 =</span> <span class="kw">list</span>(<span class="dt">type =</span> <span class="st">&quot;Gaussian&quot;</span>, <span class="dt">paramStr =</span> <span class="st">&quot;&quot;</span>),</span>
+<span id="cb15-2"><a href="#cb15-2"></a>              <span class="dt">z_class =</span> <span class="kw">list</span>(<span class="dt">type =</span> <span class="st">&quot;LatentClass&quot;</span>, <span class="dt">paramStr =</span> <span class="st">&quot;&quot;</span>))</span></code></pre></div>
 </div>
 </div>
 

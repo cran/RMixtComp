@@ -23,8 +23,8 @@ All utility functions (getters, graphical) are in the \code{\link{RMixtCompUtili
 
 In order to have an overview of the output, you can use \link{print.MixtCompLearn}, \link{summary.MixtCompLearn} and \link{plot.MixtCompLearn} functions,
 
-Getters are available to easily access some results (see. \link{mixtCompLearn} for output format): \link{getBIC}, \link{getICL}, \link{getCompletedData}, \link{getParam},
- \link{getTik}, \link{getEmpiricTik}, \link{getPartition}, \link{getType}, \link{getModel}, \link{getVarNames}.
+Getters are available to easily access some results (see. \link{mixtCompLearn} for output format): \link{getBIC}, \link{getICL}, \link{getCompletedData}, \link{getParam}, 
+\link{getProportion}, \link{getTik}, \link{getEmpiricTik}, \link{getPartition}, \link{getType}, \link{getModel}, \link{getVarNames}.
 
 
 You can compute discriminative powers and similarities with functions: \link{computeDiscrimPowerClass}, \link{computeDiscrimPowerVar}, \link{computeSimilarityClass}, \link{computeSimilarityVar}.
@@ -53,7 +53,7 @@ algo <- list(nbBurnInIter = 50,
 
 # run RMixtComp for learning using only 3 variables
 resLearn <- mixtCompLearn(simData$dataLearn$matrix, simData$model$unsupervised[1:3], algo,
-                          nClass = 2:3, nRun = 2, nCore = 1)
+                          nClass = 1:2, nRun = 2, nCore = 1)
 
 summary(resLearn)
 plot(resLearn)

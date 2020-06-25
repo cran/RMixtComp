@@ -8,14 +8,30 @@
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="Quentin Grimonprez" />
 
-<meta name="date" content="2020-01-07" />
+<meta name="date" content="2020-06-24" />
 
 <title>Overview of MixtComp Object</title>
 
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
 
 
 
@@ -31,9 +47,6 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
-}
-#header {
-text-align: center;
 }
 #TOC {
 clear: both;
@@ -202,7 +215,8 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
@@ -217,7 +231,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">Overview of MixtComp Object</h1>
 <h4 class="author">Quentin Grimonprez</h4>
-<h4 class="date">2020-01-07</h4>
+<h4 class="date">2020-06-24</h4>
 
 
 <div id="TOC">
@@ -257,6 +271,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 |                |_ lnCompletedLikelihood
 |                |_ lnObservedLikelihood
 |                |_ IDClass
+|                |_ IDClassBar
 |                |_ delta
 |                |_ runTime
 |                |_ nbFreeParameters
@@ -332,8 +347,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <li><strong>nbFreeParameters</strong> number of free parameters of the mixture model</li>
 <li><strong>lnObservedLikelihood</strong> observed loglikelihood</li>
 <li><strong>lnCompletedLikelihood</strong> completed loglikelihood</li>
-<li><strong>IDClass</strong> entropy used to compute the discriminative power (see code of plotDiscrimVbles)</li>
-<li><strong>delta</strong> entropy used to compute the similarities between variables (see code of heatmapVbles)</li>
+<li><strong>IDClass</strong> entropy used to compute the discriminative power (see computeDiscrimPowerVar function)</li>
+<li><strong>IDClassBar</strong> entropy used to compute the discriminative power (see computeDiscrimPowerVar function)</li>
+<li><strong>delta</strong> entropy used to compute the similarities between variables (see heatmapVar function)</li>
 <li><strong>completedProbabilityLogBurnIn</strong> evolution of the completed log-probability during the burn-in period (can be used to check the convergence and determine the ideal number of iteration)</li>
 <li><strong>completedProbabilityLogRun</strong> evolution of the completed log-probability after the burn-in period (can be used to check the convergence and determine the ideal number of iteration)</li>
 <li><strong>runTime</strong> a list containing the execution time in seconds of different part of the algorithm</li>
@@ -344,15 +360,27 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <h3>variable</h3>
 <div id="type" class="section level4">
 <h4>type</h4>
-<p>Named list (according to variable names) containing model used for each variable (e.g. “Gaussian”).</p>
+<p>Named list (according to variable names) containing model used for each variable (e.g. “Gaussian”).</p>
 </div>
 <div id="data" class="section level4">
 <h4>data</h4>
-<p>The format is detailled below according to the model.</p>
+<p>Except for functional models and LatentClass, data contains, for each variable, two elements: <em>completed</em> and <em>stat</em>. <em>completed</em> contains the completed data and <em>stat</em> contains statistics about completed data. The format is detailed below according to the model.</p>
 <ul>
 <li><strong>LatentClass</strong></li>
 </ul>
 <p>Two elements: <em>completed</em> and <em>stat</em>. <em>completed</em> contains the completed data. <em>stat</em> is a matrix with the same number of columns as the number of class. For each sample, it contains the <span class="math inline">\(t_{ik}\)</span> (probability of <span class="math inline">\(x_i\)</span> to belong to class <em>k</em>) estimated with the imputed values during the Gibbs at the end of each iteration after the burn-in phase of the algorithm.</p>
+<ul>
+<li><strong>Gaussian/Poisson/NegativeBinomial/Weibull</strong></li>
+</ul>
+<p><em>stat</em> is a matrix where each row corresponds to a missing data and contains 4 elements: index of the missing data, median, 2.5% quantile, 97.5% quantile (if the confidenceLevel parameter is set to 0.95) of imputed values during the Gibbs at the end of each iteration after the burn-in phase of the algorithm.</p>
+<ul>
+<li><strong>Multinomial</strong></li>
+</ul>
+<p><em>stat</em> is a named list where each element corresponds to a missing data. The name of the element corresponds to the index of the missing data. It contains a matrix containing the imputed values, during the Gibbs at the end of each iteration after the burn-in phase of the algorithm, and their frequency.</p>
+<ul>
+<li><strong>Rank_ISR</strong></li>
+</ul>
+<p><em>stat</em> is a named list where each element corresponds to a missing data. The name of the element corresponds to the index of the missing data. It contains a matrix containing the imputed values, during the Gibbs at the end of each iteration after the burn-in phase of the algorithm, and their frequency.</p>
 <ul>
 <li><strong>Func_CS</strong> and <strong>Func_SharedAlpha_CS</strong></li>
 </ul>

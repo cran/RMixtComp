@@ -12,7 +12,7 @@
 
 <meta name="author" content="Quentin Grimonprez" />
 
-<meta name="date" content="2020-06-24" />
+<meta name="date" content="2021-03-29" />
 
 <title>Overview of MixtComp Object</title>
 
@@ -32,6 +32,16 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 </script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
 
 
 
@@ -231,7 +241,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Overview of MixtComp Object</h1>
 <h4 class="author">Quentin Grimonprez</h4>
-<h4 class="date">2020-06-24</h4>
+<h4 class="date">2021-03-29</h4>
 
 
 <div id="TOC">
@@ -446,6 +456,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <li><strong>algo</strong>, <strong>mixture</strong>, <strong>variable</strong>, <strong>warnLog</strong> MixtComp object associated with the best number of classes</li>
 <li><strong>res</strong> A list containing one <em>MixtComp</em> object per number of class. The first element (res[[1]]) corresponds to the <em>MixtComp</em> object for a number of classes of <em>nClass[1]</em></li>
 <li><strong>nRun</strong> Number of runs for each number of classes</li>
+<li><strong>totalTime</strong> Total running time</li>
 </ul>
 </div>
 

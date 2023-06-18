@@ -26,7 +26,7 @@ titanicMCTrain <- titanicMC[indTrain, ]
 titanicMCTest <- titanicMC[-indTrain, ]
 
 ## -----------------------------------------------------------------------------
-model <- list(fare = "Gaussian", age = "Gaussian", pclass = "Multinomial", survived = "Multinomial", 
+model <- list(fare = "Gaussian", age = "Gaussian", pclass = "Multinomial", survived = "Multinomial",
               sex = "Multinomial", embarked = "Multinomial", sibsp = "Poisson", parch = "Poisson")
 
 ## ----learn, results = "hide"--------------------------------------------------

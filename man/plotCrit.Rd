@@ -15,21 +15,26 @@ plotCrit(output, crit = c("BIC", "ICL"), pkg = c("ggplot2", "plotly"), ...)
 
 \item{...}{arguments to be passed to plot_ly}
 }
+\value{
+\code{ggplot2} or \code{plotly} object
+}
 \description{
-Plot BIC and ICL
+Plot BIC and ICL with regards to the number of classes
 }
 \examples{
 data(iris)
- 
+
 # define the algorithm's parameters
 algo <- createAlgo()
 
 # keep only 3 variables
-model <- list(Petal.Width = "Gaussian", Petal.Length = "Gaussian",
-              Sepal.Width = "Gaussian", Sepal.Length = "Gaussian")
+model <- list(
+  Petal.Width = "Gaussian", Petal.Length = "Gaussian",
+  Sepal.Width = "Gaussian", Sepal.Length = "Gaussian"
+)
 
 # run RMixtComp in unsupervised clustering mode + data as matrix
-res <- mixtCompLearn(iris, model, algo, nClass = 1:4)
+res <- mixtCompLearn(iris, model, algo, nClass = 1:4, nCore = 1)
 
 # plot
 plotCrit(res)

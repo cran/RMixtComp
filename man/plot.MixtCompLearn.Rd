@@ -26,6 +26,9 @@
 
 \item{...}{extra parameter for \link{plotDataCI} or \link{plotDataBoxplot}}
 }
+\value{
+\code{ggplot2} or \code{plotly} object
+}
 \description{
 Plot of a \emph{MixtCompLearn} object
 }
@@ -33,7 +36,7 @@ Plot of a \emph{MixtCompLearn} object
 data(iris)
 
 # run RMixtComp in unsupervised clustering mode and in basic mode
-resLearn <- mixtCompLearn(iris[, -5], nClass = 2:4)
+resLearn <- mixtCompLearn(iris[, -5], nClass = 2:4, nCore = 1)
 
 plot(resLearn)
 plot(resLearn, nClass = 3, plotData = "Boxplot")
